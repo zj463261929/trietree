@@ -15,7 +15,8 @@ git push -f origin master  #第一次推送master分支的所有内容；
 
 #http://www.cnblogs.com/wangmingshun/p/5424767.html
 
-#git clone git@github.com:zj463261929/Attention-OCR.git
+#git clone git@github.com:zj463261929/trietree.git
+#git remote add origin git@github.com:tongpi/basicOCR.git
 
 
 
