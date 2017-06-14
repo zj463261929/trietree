@@ -150,21 +150,31 @@ class TrieNode:
         
         self.word = None
         self.children = {}
+        #print (type(self.children))
 
         global NodeCount
         NodeCount += 1
+        #print ("NodeCount:{}".format(NodeCount))
 
     def insert( self, word, freq):
+        
         node = self
         for letter in word:
             #print ("letter:{}".format(letter))
             if letter not in node.children: 
                 node.children[letter] = TrieNode()
                 
+                #print (type(node.children[letter]))
+                #for k in node.children.keys():
+                    #print ("111111111")
+                    #print ("key:{}".format(k))
+                    #print ("value:{}".format(node.children[k].word))
             node = node.children[letter]
-      
+
         node.word = word
         node.freq = freq
+        #print ("node word:{}".format(node.word))
+        
     
     def gen_pfdict(self, f):
         words = []
@@ -360,6 +370,8 @@ def construction_trietree(DICTIONARY): #(words, freqs):
         #l=uniform(l)
         #word, word_freq = l.strip().split()               
         WordCount += 1
+        print ("\n")
+        print ("src word:{}".format(trie.words[i]))
         trie.insert( uniform(trie.words[i]),  10)#uniform(trie.freqs[i]))
         #print word, word_fre   
     #ann_file.close()
@@ -373,11 +385,13 @@ def construction_trietree(DICTIONARY): #(words, freqs):
 def search( word, maxCost, trie):
     # build first row
     currentRow = range( len(word) + 1 )
-
+   
     results = []
 
     # recursively search each branch of the trie
     for letter in trie.children:
+        print ("\n")
+        print ("node letter:{}".format(letter))
         searchRecursive( trie.children[letter], letter, word, currentRow, 
             results, maxCost )
 
@@ -389,11 +403,13 @@ def searchRecursive( node, letter, word, previousRow, results, maxCost ):
 
     columns = len( word ) + 1
     currentRow = [ previousRow[0] + 1 ]
+    print ("currentRow1:{}".format(currentRow))
+    print ("previousRow:{}".format(previousRow))
 
     # Build one row for the letter, with a column for each letter in the target
     # word, plus one for the empty string at column 0
     for column in xrange( 1, columns ):
-
+        print (column)
         insertCost = currentRow[column - 1] + 1
         deleteCost = previousRow[column] + 1
         #print (letter)
@@ -403,17 +419,20 @@ def searchRecursive( node, letter, word, previousRow, results, maxCost ):
             replaceCost = previousRow[ column - 1 ] + 1
         else:                
             replaceCost = previousRow[ column - 1 ]
-
+        print (insertCost, deleteCost, replaceCost)
         currentRow.append( min( insertCost, deleteCost, replaceCost ) )
-
+        print ("currentRow:{}".format(currentRow))
     # if the last entry in the row indicates the optimal cost is less than the
     # maximum cost, and there is a word in this trie node, then add it.
     if currentRow[-1] <= maxCost and node.word != None:
         results.append( (node.word, currentRow[-1], node.freq ) )
+        for c in results:
+            print ("results:{}".format(c))
 
     # if any entries in the row are less than the maximum cost, then 
     # recursively search each branch of the trie
     if min( currentRow ) <= maxCost:
+        print ("1111111")
         for letter in node.children:
             searchRecursive( node.children[letter], letter, word, currentRow, 
                 results, maxCost )

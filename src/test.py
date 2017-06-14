@@ -10,11 +10,11 @@ import trietree_correct_lexicon as trieTree
 
         
 #加载字典
-trieTree.trie = trieTree.construction_trietree("lexicon.txt") #("userdic.txt")
+trieTree.trie = trieTree.construction_trietree("dict11.txt") #("userdic.txt")
 if trieTree.trie is not None:
   
     #输出矫正后的word
-    word = trieTree.correct_word("mint", 1, trieTree.trie) 
+    word = trieTree.correct_word("tex", 1, trieTree.trie) 
     print (word)
 
 
